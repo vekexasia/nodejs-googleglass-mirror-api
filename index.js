@@ -597,4 +597,4 @@ var MirrorApi = function() {
 
 }();
 
-module.export = MirrorApi;
+module.exports = MirrorApi;
