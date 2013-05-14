@@ -1,0 +1,24 @@
+{
+  "name": "nodejs-googleglass-mirror-api",
+  "version": "0.0.1",
+  "description": "A Nodejs library that helps Google Glass developers to perform Google Mirror Api requests.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vekexasia/nodejs-googleglass-mirror-api.git"
+  },
+  "keywords": [
+    "googleglass",
+    "glass",
+    "mirror api",
+    "google mirror api"
+  ],
+  "author": "Andrea Baccega",
+  "license": "MIT",
+  "dependencies": {
+    "restler": "~2.0.1"
+  }
+}
