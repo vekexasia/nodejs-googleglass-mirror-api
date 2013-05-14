@@ -14,10 +14,10 @@ var MirrorApi = function() {
      */
     MirrorApi.prototype.getContact = function (token, id, callback) {
         rest.get('https://www.googleapis.com/mirror/v1/contacts/'+id, {
-        	'headers': [
+        	'headers': {
         		'User-Agent': this.userAgent,
         		'Authorization': 'Bearer '+token
-        	]
+        	}
         }).on('complete',function(data, response) {
         	if (response.statusCode == 200) {
         		process.nextTick(function() {
@@ -39,10 +39,10 @@ var MirrorApi = function() {
      */
     MirrorApi.prototype.deleteContact = function (token, id, callback) {
         rest.del('https://www.googleapis.com/mirror/v1/contacts/'+id, {
-        	'headers': [
+        	'headers': {
         		'User-Agent': this.userAgent,
         		'Authorization': 'Bearer '+token
-        	]
+        	}
         }).on('complete',function(data, response) {
         	if (response.statusCode == 200) {
         		process.nextTick(function() {
@@ -62,10 +62,10 @@ var MirrorApi = function() {
      */
     MirrorApi.prototype.insertContact = function (token, contactResource, callback) {
         rest.postJson('https://www.googleapis.com/mirror/v1/contacts/', contactResource, {
-        	'headers': [
+        	'headers': {
         		'User-Agent': this.userAgent,
         		'Authorization': 'Bearer '+token
-        	]
+        	}
         }).on('complete',function(data, response) {
         	if (response.statusCode == 201) {
         		process.nextTick(function() {
@@ -84,10 +84,10 @@ var MirrorApi = function() {
      */
     MirrorApi.prototype.listContacts = function (token,  callback) {
         rest.get('https://www.googleapis.com/mirror/v1/contacts', {
-        	'headers': [
+        	'headers': {
         		'User-Agent': this.userAgent,
         		'Authorization': 'Bearer '+token
-        	]
+        	}
         }).on('complete',function(data, response) {
         	if (response.statusCode == 200) {
         		process.nextTick(function() {
@@ -110,11 +110,11 @@ var MirrorApi = function() {
      */
     MirrorApi.prototype.patchContact = function (token, id, contactResource, callback) {
         rest.request('https://www.googleapis.com/mirror/v1/contacts/'+id, {
-        	'headers': [
+        	'headers': {
         		'User-Agent': this.userAgent,
         		'Authorization': 'Bearer '+token,
         		'Content-Type': 'application/json'
-        	],
+        	},
         	'method': 'patch',
         	'data': JSON.stringify(contactResource)
         }).on('complete',function(data, response) {
@@ -137,10 +137,10 @@ var MirrorApi = function() {
      */
     MirrorApi.prototype.updateContact = function (token, contactId, contactResource, callback) {
         rest.postJson('https://www.googleapis.com/mirror/v1/contacts/'+contactId, {
-            'headers': [
+            'headers': {
                 'User-Agent': this.userAgent,
                 'Authorization': 'Bearer '+token
-            ]
+            }
         }).on('complete',function(data, response) {
             if (response.statusCode == 200) {
                 process.nextTick(function() {
@@ -165,10 +165,10 @@ var MirrorApi = function() {
      */
     MirrorApi.prototype.getTimeline = function (token, id, callback) {
         rest.get('https://www.googleapis.com/mirror/v1/timeline/'+id, {
-        	'headers': [
+        	'headers': {
         		'User-Agent': this.userAgent,
         		'Authorization': 'Bearer '+token
-        	]
+        	}
         }).on('complete',function(data, response) {
         	if (response.statusCode == 200) {
         		process.nextTick(function() {
@@ -191,10 +191,10 @@ var MirrorApi = function() {
      */
     MirrorApi.prototype.deleteTimeline = function (token, id, callback) {
         rest.del('https://www.googleapis.com/mirror/v1/timeline/'+id, {
-        	'headers': [
+        	'headers': {
         		'User-Agent': this.userAgent,
         		'Authorization': 'Bearer '+token
-        	]
+        	}
         }).on('complete',function(data, response) {
         	if (response.statusCode == 200) {
         		process.nextTick(function() {
@@ -214,10 +214,10 @@ var MirrorApi = function() {
      */
     MirrorApi.prototype.insertTimeline = function (token, timelineResource, callback) {
         rest.postJson('https://www.googleapis.com/mirror/v1/timeline/', timelineResource, {
-        	'headers': [
+        	'headers': {
         		'User-Agent': this.userAgent,
         		'Authorization': 'Bearer '+token
-        	]
+        	}
         }).on('complete',function(data, response) {
         	if (response.statusCode == 201) {
         		process.nextTick(function() {
@@ -246,11 +246,11 @@ var MirrorApi = function() {
     	multipartData += mediaData+"\n\n";
     	multipartData += "--gshab--"
         rest.request('https://www.googleapis.com/upload/mirror/v1/timeline?uploadType=multipart', {
-        	'headers': [
+        	'headers': {
         		'User-Agent': this.userAgent,
         		'Authorization': 'Bearer '+token,
         		'Content-Type': 'multipart/related; boundary="gshab"',
-        	],
+        	},
         	'data': multipartData
         }).on('complete',function(data, response) {
         	if (response.statusCode == 201) {
@@ -277,10 +277,10 @@ var MirrorApi = function() {
             'query':    queryObj
         });
         rest.get(urlToCall, {
-        	'headers': [
+        	'headers': {
         		'User-Agent': this.userAgent,
         		'Authorization': 'Bearer '+token
-        	]
+        	}
         }).on('complete',function(data, response) {
         	if (response.statusCode == 200) {
         		process.nextTick(function() {
@@ -303,11 +303,11 @@ var MirrorApi = function() {
      */
     MirrorApi.prototype.patchTimeline = function (token, id, timelineResource, callback) {
         rest.request('https://www.googleapis.com/mirror/v1/timeline/'+id, {
-        	'headers': [
+        	'headers': {
         		'User-Agent': this.userAgent,
         		'Authorization': 'Bearer '+token,
         		'Content-Type': 'application/json'
-        	],
+        	},
         	'method': 'patch',
         	'data': JSON.stringify(contactResource)
         }).on('complete',function(data, response) {
@@ -329,12 +329,12 @@ var MirrorApi = function() {
      * @param {function} callback - (err, data)  . If error is null then it suceeded. data will contain the returning data from the google endpoint.
 
      */
-    MirrorApi.prototype.deleteSubscriptions = function (token, id, callback) {
+    MirrorApi.prototype.deleteSubscription = function (token, id, callback) {
         rest.del('https://www.googleapis.com/mirror/v1/subscriptions/'+id, {
-            'headers': [
+            'headers': {
                 'User-Agent': this.userAgent,
                 'Authorization': 'Bearer '+token
-            ]
+            }
         }).on('complete',function(data, response) {
             if (response.statusCode == 200) {
                 process.nextTick(function() {
@@ -347,17 +347,17 @@ var MirrorApi = function() {
     };
 
     /**
-     * Inserts a timerline object
+     * Inserts a subscription object
      * @param {string} token - the bearer token
      * @param {object} subscriptionResource - the subscription resource object as specified by google here: https://developers.google.com/glass/v1/reference/subscriptions#resource
      * @param {function} callback - (err, data)  . If error is null then it suceeded. data will contain the returning data from the google endpoint.
      */
     MirrorApi.prototype.insertSubscription = function (token, subscriptionResource, callback) {
         rest.postJson('https://www.googleapis.com/mirror/v1/subscriptions/', subscriptionResource, {
-            'headers': [
+            'headers': {
                 'User-Agent': this.userAgent,
                 'Authorization': 'Bearer '+token
-            ]
+            }
         }).on('complete',function(data, response) {
             if (response.statusCode == 201) {
                 process.nextTick(function() {
@@ -383,10 +383,10 @@ var MirrorApi = function() {
             'query':    queryObj
         });
         rest.get(urlToCall, {
-            'headers': [
+            'headers': {
                 'User-Agent': this.userAgent,
                 'Authorization': 'Bearer '+token
-            ]
+            }
         }).on('complete',function(data, response) {
             if (response.statusCode == 200) {
                 process.nextTick(function() {
@@ -404,18 +404,17 @@ var MirrorApi = function() {
     /**
      * Updates a subscription
      * @param {string} token - the bearer token
-     * @param {string} id - the id of the timelineresource you want to patch
+     * @param {string} id - the id of the subscription resource you want to update
      * @param {object} subscriptionResource - the subscription resource object as specified by google here: https://developers.google.com/glass/v1/reference/contacts#resource
      * @param {function} callback - (err, data)  . If error is null then it suceeded. data will contain the returning data from the google endpoint.
      */
     MirrorApi.prototype.updateSubscription = function (token, id, subscriptionResource, callback) {
         rest.put('https://www.googleapis.com/mirror/v1/subscriptions/'+id, {
-            'headers': [
+            'headers': {
                 'User-Agent': this.userAgent,
                 'Authorization': 'Bearer '+token,
                 'Content-Type': 'application/json'
-            ],
-            'method': 'patch',
+            },
             'data': JSON.stringify(contactResource)
         }).on('complete',function(data, response) {
             if (response.statusCode == 201) {
@@ -427,7 +426,7 @@ var MirrorApi = function() {
             }
         })
     };
-    return MirrorApi;
+   
 
 // Locations stuff
     /**
@@ -436,12 +435,12 @@ var MirrorApi = function() {
      * @param {string} id - the id of the location item you want to get the info from
      * @param {function} callback - (err, data)  . If error is null then it suceeded. data will contain the resulting data
      */
-    MirrorApi.prototype.getLocations = function (token, id, callback) {
+    MirrorApi.prototype.getLocation = function (token, id, callback) {
         rest.get('https://www.googleapis.com/mirror/v1/locations/'+id, {
-            'headers': [
+            'headers': {
                 'User-Agent': this.userAgent,
                 'Authorization': 'Bearer '+token
-            ]
+            }
         }).on('complete',function(data, response) {
             if (response.statusCode == 200) {
                 process.nextTick(function() {
@@ -473,10 +472,10 @@ var MirrorApi = function() {
             'query':    queryObj
         });
         rest.get(urlToCall, {
-            'headers': [
+            'headers': {
                 'User-Agent': this.userAgent,
                 'Authorization': 'Bearer '+token
-            ]
+            }
         }).on('complete',function(data, response) {
             if (response.statusCode == 200) {
                 process.nextTick(function() {
@@ -501,10 +500,10 @@ var MirrorApi = function() {
      */
     MirrorApi.prototype.getTimelineAttachment = function (token, itemId, attachmentId, callback) {
         rest.get('https://www.googleapis.com/mirror/v1/timeline/'+itemId+'/attachments/'+attachmentId, {
-            'headers': [
+            'headers': {
                 'User-Agent': this.userAgent,
                 'Authorization': 'Bearer '+token
-            ]
+            }
         }).on('complete',function(data, response) {
             if (response.statusCode == 200) {
                 process.nextTick(function() {
@@ -527,10 +526,10 @@ var MirrorApi = function() {
      */
     MirrorApi.prototype.deleteTimelineAttachment = function (token, itemId, attachmentId, callback) {
         rest.del('https://www.googleapis.com/mirror/v1/timeline/'+itemId+'/attachments/'+attachmentId, {
-            'headers': [
+            'headers': {
                 'User-Agent': this.userAgent,
                 'Authorization': 'Bearer '+token
-            ]
+            }
         }).on('complete',function(data, response) {
             if (response.statusCode == 200) {
                 process.nextTick(function() {
@@ -552,11 +551,11 @@ var MirrorApi = function() {
      */
     MirrorApi.prototype.insertTimelineAttachment = function (token, itemId, mimeType, attachment, callback) {
         rest.post('https://www.googleapis.com/mirror/v1/timeline/'+itemId+'/attachments', {
-            'headers': [
+            'headers': {
                 'User-Agent': this.userAgent,
                 'Content-Type': mimeType,
                 'Authorization': 'Bearer '+token
-            ],
+            },
             'data': attachment
         }).on('complete',function(data, response) {
             if (response.statusCode == 201) {
@@ -577,10 +576,10 @@ var MirrorApi = function() {
      */
     MirrorApi.prototype.listTimelineAttachment = function (token, itemId, callback) {
         rest.get('https://www.googleapis.com/mirror/v1/timeline/'+itemId+'/attachments', {
-            'headers': [
+            'headers': {
                 'User-Agent': this.userAgent,
                 'Authorization': 'Bearer '+token
-            ]
+            }
         }).on('complete',function(data, response) {
             if (response.statusCode == 200) {
                 process.nextTick(function() {
@@ -594,7 +593,7 @@ var MirrorApi = function() {
         })
     };
 
-
+    return MirrorApi;
 }();
 
 module.exports = MirrorApi;
