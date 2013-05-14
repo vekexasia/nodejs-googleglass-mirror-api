@@ -557,5 +557,7 @@ mMirrorApiInstance.listTimelineAttachment(userAuthToken, timelineId, function(er
  * Get Google glass so that I can test the library
  * test the library :)
 
+If you own Google Glass and you've access to Google Mirror Api please get in touch with me ( details below ) so that we can try it out.
+
 # Authors
  * Andrea Baccega <me@andreabaccega.com> 
