@@ -3,7 +3,7 @@ Nodejs Google Glass Api
 
 A Nodejs library that helps Google Glass developers to perform Google Mirror Api requests.
 
-# Big Disclaymer
+# Big Disclaimer
 Since i don't own Google Glass :(  I was unable to trigger even a single test to try out the library. I wrote it down by strictly following the [Official documentation](https://developers.google.com/glass/v1/reference/)
 
 ## Installation ##
@@ -552,3 +552,10 @@ mMirrorApiInstance.listTimelineAttachment(userAuthToken, timelineId, function(er
   ]
 }
 ```
+
+# Todo
+ * Get Google glass so that I can test the library
+ * test the library :)
+
+# Authors
+ * Andrea Baccega <me@andreabaccega.com> 
