@@ -45,6 +45,7 @@ mMirrorApiInstance.getContact( myToken, contactId, function(err, data) {
   }
 });
 ```
+*Output*: If successful, this method returns a [Contacts resource](https://developers.google.com/glass/v1/reference/contacts#resource) in the response body.
 
 ### deleteContact (userAuthToken, contactId, callback)
 Method that deletes a contact 
@@ -63,7 +64,9 @@ mMirrorApiInstance.deleteContact( myToken, contactId, function(err, data) {
   }
 });
 ```
- 
+*Output*: If successful, this method returns an empty response body.
+
+
 ### insertContact (userAuthToken, contactResource, callback)
 Inserts a contact. The 2nd Parameter should be a json object. Reference can be found here https://developers.google.com/glass/v1/reference/contacts#resource
 
@@ -107,7 +110,17 @@ mMirrorApiInstance.listContacts( myToken, function(err, data) {
   }
 });
 ```
+*Output*: If successful, this method returns a response body with the following structure:
+```json
+{
+  "kind": "mirror#contacts",
+  "items": [
+    contacts Resource
+  ]
+}
 
+
+```
 ### patchContact (userAuthToken, contactId, contactResource, callback)
 Inserts a contact. The 3rd Parameter should be a json object. Reference can be found here https://developers.google.com/glass/v1/reference/contacts#resource
 
@@ -132,6 +145,9 @@ mMirrorApiInstance.patchContact(
   }
 );
 ```
+*Output*: If successful, this method returns a [Contacts resource](https://developers.google.com/glass/v1/reference/contacts#resource) in the response body.
+
+
 
 ## Timeline api
 ### getTimeline (userAuthToken, timelineId, callback)
@@ -163,9 +179,8 @@ mMirrorApiInstance.deleteTimeline( myToken, timelineId, function(err, data) {
     console.log(err.statusCode); // err will also contain other usefull infos like response headers
     console.log(data); //string - contains the response body
   } else {
-    // contact erased.
-    // since data is string 
-    var dataObj = JSON.parse(data);
+    // timeline erased.
+    // data variable should be an empty string
     // ...
   }
 });
@@ -236,21 +251,28 @@ List timeline items for the authenticated user. `queryObj` is a jsobj: keys and 
 
 Example: 
 ```javascript
-mMirrorApiInstance.insertTimelineWithMedia(myToken, timelineResource, mimeType, imageData, function(err, data) {
+mMirrorApiInstance.listTimeline(userAuthToken, {'maxResults':10}, function(err, data) {
     if (err) {
       console.log(err.statusCode); // err will also contain other usefull infos like response headers
       console.log(data); //string - contains the response body
     } else {
-      // timeline added. dataStr should contain a timeline resource which should be ~ equal to the one we passed.
-      // since data is string 
+      // data contains a string that should be parsed as json
       var dataObj = JSON.parse(data);
-      // ...
+      // the resulting object is contains an item key which is an array of timeline resource.
     }
   }
 );
 ```
-*Output Result*: If successful, this method returns an object containing `nextPageToken` and `items` (which is an array of [Timeline resource](https://developers.google.com/glass/v1/reference/timeline#resource) ) in the response body.
-
+*Output Result*: If successful, this method returns a response body with the following structure:
+```json
+{
+  "kind": "mirror#timeline",
+  "nextPageToken": string,
+  "items": [
+    timeline Resource
+  ]
+}
+```
 
 ### patchTimeline (userAuthToken, timelineId, timelineResource, callback)
 Patches inline a timeline. You can pass a jsonobject with only the field you need to patch. see [Timeline resource](https://developers.google.com/glass/v1/reference/timeline#resource) for a list of key=>values
@@ -262,10 +284,9 @@ mMirrorApiInstance.patchTimeline(myToken, timelineIdToPatch, {'text':'New text f
       console.log(err.statusCode); // err will also contain other usefull infos like response headers
       console.log(data); //string - contains the response body
     } else {
-      // timeline added. dataStr should contain a timeline resource which should be ~ equal to the one we passed.
-      // since data is string 
+      // data is string. Should be converted to json before using it
       var dataObj = JSON.parse(data);
-      // ...
+      // now dataObj should be a timelineResource with the mods applied
     }
   }
 );
@@ -442,5 +463,92 @@ mMirrorApiInstance.getTimelineAttachment(userAuthToken, timelineId, attachmentId
   "contentType": string,
   "contentUrl": string,
   "isProcessingContent": boolean
+}
+```
+
+
+### deleteTimelineAttachment (userAuthToken, timelineId, attachmentId, callback)
+Deletes an attachment from a timeline item.
+
+Example: 
+```javascript
+mMirrorApiInstance.deleteTimelineAttachment(userAuthToken, timelineId, attachmentId, function(err, data) {
+    if (err) {
+      console.log(err.statusCode); // err will also contain other usefull infos like response headers
+      console.log(data); //string - contains the response body
+    } else {
+      // the attachment should be now deleted. data should be empty.
+      // ...
+    }
+  }
+);
+```
+*Output Result*: If successful, this method returns an empty response
+
+### insertTimelineAttachment (userAuthToken, timelineId, mimeType, attachment, callback)
+Adds a new attachment to a timeline item.
+ * Maximum file size: 10MB
+ * Accepted Media MIME types: image/* , audio/* , video/*
+
+Example: 
+```javascript
+mMirrorApiInstance.insertTimelineAttachment(userAuthToken, timelineId, 'image/jpeg', imageData, function(err, data) {
+    if (err) {
+      console.log(err.statusCode); // err will also contain other usefull infos like response headers
+      console.log(data); //string - contains the response body
+    } else {
+      // the return data should be a custom formatted json
+      // ...
+    }
+  }
+);
+```
+*Output Result*: If successful, this method returns a custom formatted json
+```json
+{
+  "id": string,
+  "contentType": string,
+  "contentUrl": string,
+  "isProcessingContent": boolean
+}
+```
+
+### listTimelineAttachment (userAuthToken, timelineId, callback)
+Returns a list of attachments for a timeline item.
+
+Example: 
+```javascript
+mMirrorApiInstance.listTimelineAttachment(userAuthToken, timelineId, function(err, data) {
+    if (err) {
+      console.log(err.statusCode); // err will also contain other usefull infos like response headers
+      console.log(data); //string - contains the response body
+    } else {
+      // the return data should be a custom formatted json
+      // each attachment should be accessed using the dataObj.items array
+      var dataObj = JSON.parse(data);
+      dataObj.items[0]; // First item
+    }
+  }
+);
+```
+*Output Result*: If successful, this method returns a custom formatted json
+```json
+{
+  "kind": "mirror#attachmentsList",
+  "items": [
+    {
+      "id": string,
+      "contentType": string,
+      "contentUrl": string,
+      "isProcessingContent": boolean
+    },
+    {
+      "id": string,
+      "contentType": string,
+      "contentUrl": string,
+      "isProcessingContent": boolean
+    },
+    ...
+  ]
 }
 ```
